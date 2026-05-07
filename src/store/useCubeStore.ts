@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { CubeState } from "./types";
 
 export const useCubeStore = create<CubeState>((set) => ({
-    cubes: [],
+    cubes: [{id: nanoid(), position: [0, 0.5, -10]}],
     addCube: (x, y, z) => 
         set((state) => ({
         cubes: [

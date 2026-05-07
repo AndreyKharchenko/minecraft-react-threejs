@@ -2,3 +2,5 @@ export * from "./Ground";
 export * from "./Camera";
 export * from "./PointerLockControls";
 export * from "./CrossHair";
+export * from "./Block";
+export * from "./PlayerNew";
