@@ -20,7 +20,7 @@ export const Player = ({onHit}: PlayerProps) => {
     const velocity = useRef<number[]>([0, 0, 0]);
     const position = useRef<Vector3>(new Vector3(0, 0, 0));
 
-    // raycast
+    // raycast (луч)
     const raycaster = useRef(new Raycaster());
     const hitRef = useRef<any>(null);
 
@@ -42,23 +42,25 @@ export const Player = ({onHit}: PlayerProps) => {
 
     useEffect(() => {
         const onClick = () => {
-        const hit = hitRef.current;
-        if (!hit) return;
-            onHit?.(hit); // передаём наружу (например Cube system)
+            const hit = hitRef.current;
+            if (!hit) return;
+            onHit?.(hit);
         };
 
         window.addEventListener('click', onClick);
         return () => window.removeEventListener('click', onClick);
     }, [onHit]);
 
-    // Перерасчет позиции
     // useFrame срабатывает на каждый кадр
+    // Перерасчет позиции и Находим пересечения
     useFrame(() => {
         camera.position.copy(position.current);
 
-        // raycast from CENTER of screen
+        // raycast (луч) из камеры через центр экрана
         raycaster.current.setFromCamera(new Vector2(0, 0), camera);
+        // ищем пересечения
         const hits = raycaster.current.intersectObjects(scene.children, true);
+        // обновляем hitRef каждый frame
         hitRef.current = hits[0] ?? null;
         
         // Направление движения
